@@ -1,0 +1,53 @@
+{
+  "task": {
+    "description": "Collect user data from JSONPlaceholder API",
+    "source": "https://jsonplaceholder.typicode.com",
+    "source_context": {
+      "homepage_title": "JSONPlaceholder",
+      "has_api": true
+    },
+    "fields": [
+      {"name": "name", "type": "string", "required": true, "description": "User full name"},
+      {"name": "email", "type": "string", "required": true, "description": "User email"},
+      {"name": "company", "type": "string", "required": false, "description": "Company name"}
+    ],
+    "constraints": {
+      "max_pages": 1,
+      "rate_limit_seconds": 0.5
+    },
+    "output_format": {
+      "format": "json",
+      "deduplicate": true
+    },
+    "collector_type": "api",
+    "confidence": 0.95
+  },
+  "collectors": [
+    {
+      "collector_type": "api",
+      "endpoint_url": "https://jsonplaceholder.typicode.com/users",
+      "method": "GET",
+      "headers": {},
+      "params": {},
+      "body": null,
+      "pagination_type": null,
+      "pagination_param": null,
+      "data_path": "$",
+      "field_mappings": {
+        "name": "name",
+        "email": "email",
+        "company": "company.name"
+      },
+      "max_pages": 1
+    }
+  ],
+  "validation": {
+    "min_quality_score": 0.60,
+    "structure_weight": 0.35,
+    "content_weight": 0.25,
+    "relevance_weight": 0.20,
+    "attachment_weight": 0.10,
+    "execution_weight": 0.10,
+    "max_correction_rounds": 3
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "task": {
+    "description": "Collect recent news articles from Hacker News front page",
+    "source": "https://news.ycombinator.com",
+    "source_context": {
+      "homepage_title": "Hacker News",
+      "column_structures": ["new", "past", "comments", "ask", "show", "jobs"],
+      "pagination_clues": "Pagination elements detected"
+    },
+    "fields": [
+      {"name": "title", "type": "string", "required": true, "description": "Article title"},
+      {"name": "url", "type": "string", "required": true, "description": "Link to article"}
+    ],
+    "constraints": {
+      "max_pages": 3,
+      "max_records": 90,
+      "rate_limit_seconds": 2.0
+    },
+    "output_format": {
+      "format": "json",
+      "flatten": false,
+      "deduplicate": true
+    },
+    "collector_type": "list",
+    "confidence": 0.95
+  },
+  "collectors": [
+    {
+      "collector_type": "list",
+      "list_url": "https://news.ycombinator.com",
+      "item_selector": ".athing",
+      "title_selector": ".titleline > a",
+      "link_selector": ".titleline > a",
+      "date_selector": null,
+      "next_page_selector": "a.morelink",
+      "page_param": null,
+      "start_page": 1,
+      "max_pages": 3
+    }
+  ],
+  "validation": {
+    "min_quality_score": 0.60,
+    "structure_weight": 0.35,
+    "content_weight": 0.25,
+    "relevance_weight": 0.20,
+    "attachment_weight": 0.10,
+    "execution_weight": 0.10,
+    "max_correction_rounds": 3
+  }
+}

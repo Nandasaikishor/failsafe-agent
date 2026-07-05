@@ -1,0 +1,53 @@
+{
+  "task": {
+    "description": "Collect HN titles then fetch detail from Wikipedia Web Scraping page",
+    "source": "https://news.ycombinator.com",
+    "source_context": {},
+    "fields": [
+      {"name": "title", "type": "string", "required": true},
+      {"name": "first_paragraph", "type": "string", "required": true}
+    ],
+    "constraints": {
+      "max_pages": 1,
+      "rate_limit_seconds": 2.0
+    },
+    "output_format": {"format": "json", "deduplicate": true},
+    "collector_type": ["list", "detail"],
+    "confidence": 0.85
+  },
+  "collectors": [
+    {
+      "collector_type": "list",
+      "list_url": "https://news.ycombinator.com",
+      "item_selector": ".athing",
+      "title_selector": ".titleline > a",
+      "link_selector": ".titleline > a",
+      "date_selector": null,
+      "next_page_selector": null,
+      "page_param": null,
+      "start_page": 1,
+      "max_pages": 1
+    },
+    {
+      "collector_type": "detail",
+      "url_pattern": null,
+      "field_selectors": {
+        "title": "h1, .title, head title",
+        "first_paragraph": "p"
+      },
+      "content_selector": "body",
+      "attachment_selector": null,
+      "date_format": null,
+      "encoding": "utf-8"
+    }
+  ],
+  "validation": {
+    "min_quality_score": 0.60,
+    "structure_weight": 0.35,
+    "content_weight": 0.25,
+    "relevance_weight": 0.20,
+    "attachment_weight": 0.10,
+    "execution_weight": 0.10,
+    "max_correction_rounds": 3
+  }
+}

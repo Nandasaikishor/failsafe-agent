@@ -1,0 +1,48 @@
+{
+  "task": {
+    "description": "Extract article details from a Wikipedia page",
+    "source": "https://en.wikipedia.org",
+    "source_context": {
+      "homepage_title": "Wikipedia"
+    },
+    "fields": [
+      {"name": "title", "type": "string", "required": true, "description": "Page title"},
+      {"name": "first_paragraph", "type": "string", "required": true, "description": "First paragraph summary"},
+      {"name": "last_modified", "type": "string", "required": false, "description": "Last modified date"}
+    ],
+    "constraints": {
+      "max_pages": 1,
+      "rate_limit_seconds": 1.0
+    },
+    "output_format": {
+      "format": "json",
+      "deduplicate": true
+    },
+    "collector_type": "detail",
+    "confidence": 0.9
+  },
+  "collectors": [
+    {
+      "collector_type": "detail",
+      "url_pattern": "https://en.wikipedia.org/wiki/Web_scraping",
+      "field_selectors": {
+        "title": "#firstHeading",
+        "first_paragraph": ".mw-parser-output > p:not(.mw-empty-elt)",
+        "last_modified": "#footer-info-lastmod"
+      },
+      "content_selector": ".mw-parser-output",
+      "attachment_selector": null,
+      "date_format": null,
+      "encoding": "utf-8"
+    }
+  ],
+  "validation": {
+    "min_quality_score": 0.60,
+    "structure_weight": 0.35,
+    "content_weight": 0.25,
+    "relevance_weight": 0.20,
+    "attachment_weight": 0.10,
+    "execution_weight": 0.10,
+    "max_correction_rounds": 3
+  }
+}

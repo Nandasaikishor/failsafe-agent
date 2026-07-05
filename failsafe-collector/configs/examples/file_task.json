@@ -1,0 +1,45 @@
+{
+  "task": {
+    "description": "Parse a CSV file of world population data",
+    "source": "https://raw.githubusercontent.com/datasets/population/main/data/population.csv",
+    "source_context": {
+      "has_file_attachments": true
+    },
+    "fields": [
+      {"name": "Country Name", "type": "string", "required": true, "description": "Country name"},
+      {"name": "Year", "type": "string", "required": true, "description": "Year"},
+      {"name": "Value", "type": "string", "required": true, "description": "Population value"}
+    ],
+    "constraints": {
+      "max_pages": 1,
+      "rate_limit_seconds": 0.5
+    },
+    "output_format": {
+      "format": "json",
+      "deduplicate": true
+    },
+    "collector_type": "file",
+    "confidence": 0.95
+  },
+  "collectors": [
+    {
+      "collector_type": "file",
+      "file_url": "https://raw.githubusercontent.com/datasets/population/main/data/population.csv",
+      "file_type": "csv",
+      "sheet_name": null,
+      "start_row": 0,
+      "header_row": 0,
+      "field_mappings": {},
+      "encoding": "utf-8"
+    }
+  ],
+  "validation": {
+    "min_quality_score": 0.60,
+    "structure_weight": 0.35,
+    "content_weight": 0.25,
+    "relevance_weight": 0.20,
+    "attachment_weight": 0.10,
+    "execution_weight": 0.10,
+    "max_correction_rounds": 3
+  }
+}

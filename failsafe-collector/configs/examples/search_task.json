@@ -1,0 +1,47 @@
+{
+  "task": {
+    "description": "Search for Python articles on Real Python",
+    "source": "https://realpython.com",
+    "source_context": {
+      "homepage_title": "Real Python",
+      "has_api": false
+    },
+    "fields": [
+      {"name": "title", "type": "string", "required": true, "description": "Article title"},
+      {"name": "url", "type": "string", "required": true, "description": "Article URL"}
+    ],
+    "constraints": {
+      "max_pages": 1,
+      "rate_limit_seconds": 2.0
+    },
+    "output_format": {
+      "format": "json",
+      "deduplicate": true
+    },
+    "collector_type": "search",
+    "confidence": 0.8
+  },
+  "collectors": [
+    {
+      "collector_type": "search",
+      "search_url": "https://realpython.com/search",
+      "keyword_param": "q",
+      "keywords": ["asyncio"],
+      "time_range_param": null,
+      "result_selector": ".card",
+      "title_selector": ".card-title a",
+      "link_selector": ".card-title a",
+      "next_page_selector": null,
+      "max_pages": 1
+    }
+  ],
+  "validation": {
+    "min_quality_score": 0.60,
+    "structure_weight": 0.35,
+    "content_weight": 0.25,
+    "relevance_weight": 0.20,
+    "attachment_weight": 0.10,
+    "execution_weight": 0.10,
+    "max_correction_rounds": 3
+  }
+}
